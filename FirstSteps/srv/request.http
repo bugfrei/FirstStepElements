@@ -1,0 +1,49 @@
+### bound Testfunction
+POST http://localhost:4004/admin/Personal(13)/AdminService.testfunction
+Content-Type: application/json
+
+### Get Personal
+GET http://localhost:4004/admin/Personal
+
+### Get Person
+GET http://localhost:4004/admin/Personal(5)
+CustomHeader: 123456
+
+
+### Move user to another project
+POST http://localhost:4004/admin/movePersonalToNewAbteilung
+Content-Type: application/json
+
+{
+    "personalId": 5,
+    "abteilungId": 1
+}
+
+### Get Projects
+GET http://localhost:4004/project/Projects
+Authorization: YWxpY2U6
+
+### Get Project Members
+GET http://localhost:4004/project/getProjectMembers(id='7a68de55-7048-419d-8694-bf340bcccb2e')
+
+
+### Get Date
+GET http://localhost:4004/project/getDATE()
+
+
+### Add User
+POST http://localhost:4004/project/Users
+Content-Type: application/json
+
+{
+    "name"  : "Jane Doe",
+    "email" : "jane.doe@gmail.com",
+    "phone": "555-555-5555",
+    "gender": "Male",
+    "password": "123456",
+    "address_street": "8000 Avalon Blvd",
+    "address_city": "Alpharetta",
+    "address_state": "GA",
+    "address_zip": "30004",
+    "project_id": "7a68de55-7048-419d-8694-bf340bcccb2e"
+}

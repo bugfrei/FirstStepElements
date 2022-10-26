@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="AdminService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Abteilungen" EntityType="AdminService.Abteilungen"/>
+                <EntitySet Name="Personal" EntityType="AdminService.Personal">
+                    <NavigationPropertyBinding Path="toAbteilung" Target="Abteilungen"/>
+                </EntitySet>
+                <ActionImport Name="movePersonalToNewAbteilung" Action="AdminService.movePersonalToNewAbteilung"/>
+            </EntityContainer>
+            <EntityType Name="Abteilungen">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="max" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Personal">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="secLevel" Type="Edm.Int32"/>
+                <Property Name="firstName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastName" Type="Edm.String" MaxLength="100"/>
+                <NavigationProperty Name="toAbteilung" Type="AdminService.Abteilungen">
+                    <ReferentialConstraint Property="toAbteilung_id" ReferencedProperty="id"/>
+                </NavigationProperty>
+                <Property Name="toAbteilung_id" Type="Edm.Int32"/>
+            </EntityType>
+            <ComplexType Name="moveResult">
+                <Property Name="success" Type="Edm.Boolean"/>
+                <Property Name="personalId" Type="Edm.String"/>
+                <Property Name="firstName" Type="Edm.String"/>
+                <Property Name="abteilungId" Type="Edm.Int32"/>
+                <Property Name="abteilungName" Type="Edm.String"/>
+            </ComplexType>
+            <Action Name="movePersonalToNewAbteilung" IsBound="false">
+                <Parameter Name="personalId" Type="Edm.Int32"/>
+                <Parameter Name="abteilungId" Type="Edm.Int32"/>
+                <ReturnType Type="AdminService.moveResult"/>
+            </Action>
+            <Annotations Target="AdminService.Abteilungen/id">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="AdminService.Personal/id">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
